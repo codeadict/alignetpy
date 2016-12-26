@@ -2,10 +2,10 @@
 Credits
 =======
 
-Development Lead
-----------------
+Main Developer
+--------------
 
-* Dairon Medina <info@gydsystems.com>
+* Dairon Medina Caro. <me@dairon.org>
 
 Contributors
 ------------
