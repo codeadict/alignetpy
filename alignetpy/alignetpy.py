@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2016 Dairom
-# Developer: Dairon Medina Caro <info@gydsystems.com>
+#
+# Copyright (c) 2016, Dairon Medina Caro. All rights reserved.
+# Author: Dairon Medina Caro <me@dairon.org>
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+from __future__ import with_statement, print_function, absolute_import
 
 import base64
 import binascii
@@ -268,9 +273,9 @@ if __name__ == "__main__":
     key = "1234567891011112"
     al = Alignet()
     ci = al.base64url_symmetric_cipher(data, key, vector)
-    print ci
+    print(ci)
     de = al.base64url_symmetric_decipher(ci, key, vector)
-    print de
+    print(de)
 
     send = {
         'purchaseCurrencyCode': 'USD',
@@ -278,7 +283,7 @@ if __name__ == "__main__":
         'billingPhone': '0987612278'
     }
 
-    print al.create_xml(send)
+    print(al.create_xml(send))
 
     key = """
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMk8iGBH93T4WGSlCl8tQGSOQV
@@ -287,4 +292,4 @@ giOnHUO5SK8SMao/9VpgQncOJW7h6EooEZo9EdPSt+Ezn/3ausbNwoA7+Y/mNOcD
 NqbMDDdUFhFNdVNg0wIDAQAB
 """
     key = base64.b64decode(key)
-    print al.base64url_rsa_encrypt(data, key)
+    print(al.base64url_rsa_encrypt(data, key))
