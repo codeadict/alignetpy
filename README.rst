@@ -2,7 +2,7 @@ Alignet VPOS Python Plugin
 ==========================
 
 This is a Python module that allows to recieve payments using
-the services of Alignet; a gateway for many banks in the latinamerica region.
+the services of Alignet; a gateway for many banks in the Latin America region.
 For more information visit http://vpos.alignet.com/documentacion.html.
 
 Ideas & To Do List
@@ -21,7 +21,7 @@ We love forks, changes and pull requests!
 Want to talk? Need help or professional services?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Email info@gydsystems.com
+Email me@dairon.org
 
 
 License
