@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2014 G&D Systems S.A
+# Copyright (C) 2016 Dairom
 # Developer: Dairon Medina Caro <info@gydsystems.com>
 
 import base64
@@ -114,7 +114,7 @@ class Alignet(object):
                 re.sub(r'(^tax_)|(_name$)', '', key)
                 taxes[key] = value
             else:
-                raise AlignetError('%s is not allowed value in Alignet.') % key
+                raise AlignetError('%s is not allowed value by Alignet.') % key
 
         for key, value in temp_dict.items():
             elem = ET.SubElement(root, key)
@@ -122,21 +122,32 @@ class Alignet(object):
 
         # TODO: If some taxes exist add to the XML doc
         if len(taxes):
+            elem = ET.SubElement()
             pass
 
         return ET.tostring(root, encoding='iso-8859-1')
 
     def vpos_send(self, input_array, cipher_publickey, sign_privatekey, vector):
         """
-        Send the data to VPOS
-        @TODO: Document well this with sphinx
+        Send the data to VPOS.
         """
         output_array = dict()
 
         output_xml = self.create_xml(input_array)
 
-        sessionkey = self.generate_session_key()
+        # Generate the digital signature.
+        digital_signature = self.base64url_digital_generate(output_xml, sign_privatekey)
+        # Generate the sesion key.
+        session_key = self.generate_session_key()
+        # Encrypt the XML using the generated key.
+        encrypted_xml = self.base64url_symmetric_cipher(output_xml, session_key, vector)
+        # Encrypt the session key using the given public key.
+        encrypted_session_key = self.base64url_rsa_encrypt(session_key, cipher_publickey)
 
+        if encrypted_xml and encrypted_session_key and digital_signature:
+            output_array['SESSIONKEY'] = encrypted_session_key
+            output_array['XMLREQ'] = encrypted_xml
+            output_array['DIGITALSIGN'] = digital_signature
         return output_array
 
     def vpos_response(self):
@@ -247,6 +258,7 @@ class Alignet(object):
         raise NotImplementedError
 
     def parse_xml(self, xml):
+        output = dict()
         raise NotImplementedError
 
 
