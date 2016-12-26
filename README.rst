@@ -21,7 +21,19 @@ We love forks, changes and pull requests!
 Want to talk? Need help or professional services?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Email me@dairon.org
+Email: me@dairon.org
+
+Disclaimer
+~~~~~~~~~~
+
+This software is **not** provided by or in any way associated
+with or endorsed by Alignet(http://www.alignet.com/).  It is
+a 3rd party library to ease communication with the Alignet VPOS
+from Python Code.
+
+It is entirely USE AT YOUR OWN RISK.
+
+Read the license and documentation for full details.
 
 
 License
