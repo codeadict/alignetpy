@@ -30,7 +30,7 @@ setup(
     description='Python library for online payments with Alignet Gateway.',
     long_description=readme,
     author='Dairon Medina',
-    author_email='info@gydsystems.com',
+    author_email='me@dairon.org',
     url='https://github.com/codeadict/alignetpy',
     packages=[
         'alignetpy',

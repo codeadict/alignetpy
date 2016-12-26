@@ -2,23 +2,21 @@
 # Copyright (C) 2014 G&D Systems S.A
 # Developer: Dairon Medina Caro <info@gydsystems.com>
 
-import random
-import string
-import binascii
 import base64
+import binascii
+import random
+import re
+import string
 import xml.etree.cElementTree as ET
 
-import re
-
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Cipher import DES3
-from Crypto import Random
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.PublicKey import RSA
 
 
 class AlignetError(Exception):
     """
-    Common alignet Exception
+    Common Alignet Exception
     """
     pass
 
@@ -122,7 +120,7 @@ class Alignet(object):
             elem = ET.SubElement(root, key)
             elem.text = value
 
-        #TODO: If some taxes exist add to the XML doc
+        # TODO: If some taxes exist add to the XML doc
         if len(taxes):
             pass
 
@@ -184,14 +182,14 @@ class Alignet(object):
             raise AlignetError("Simetric Key doesn't have length of 16")
             return None
 
-        #Convert the vector to binary
+        # Convert the vector to binary
         binvector = binascii.unhexlify(vector)
 
         if not binvector:
             raise AlignetError('Initialization Vector is not valid, must contain only hexadecimal characters')
             return None
 
-        #Add 8 first bytes of key at the end of it
+        # Add 8 first bytes of key at the end of it
         key += key[0:8]
 
         block = DES3.block_size
@@ -210,11 +208,18 @@ class Alignet(object):
         return crypttext
 
     def base64url_symmetric_decipher(self, data, key, vector):
+        """
 
-        #Convert the vector to binary
+        :param data:
+        :param key:
+        :param vector:
+        :return:
+        """
+
+        # Convert the vector to binary
         binvector = binascii.unhexlify(vector)
 
-        #Add 8 first bytes of key at the end of it
+        # Add 8 first bytes of key at the end of it
         key += key[0:8]
 
         pas = re.sub('_', '/', data)
@@ -271,4 +276,3 @@ NqbMDDdUFhFNdVNg0wIDAQAB
 """
     key = base64.b64decode(key)
     print al.base64url_rsa_encrypt(data, key)
-
