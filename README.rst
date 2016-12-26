@@ -5,6 +5,10 @@ This is a Python module that allows to recieve payments using
 the services of Alignet; a gateway for many banks in the Latin America region.
 For more information visit http://vpos.alignet.com/documentacion.html.
 
+**Compatibility:**
+
+* Tested on Python 2.7, 3.4 and 3.5
+
 Ideas & To Do List
 ~~~~~~~~~~~~~~~~~~
 
