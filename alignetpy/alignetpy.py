@@ -179,9 +179,9 @@ class Alignet(object):
 
         if encrypted_msg:
             b64 = encrypted_msg.encode('base64')
-            b64 = re.sub('(/)', '_', b64)
-            b64 = re.sub('(\+)', '-', b64)
-            b64 = re.sub('(=)', '.', b64)
+            b64 = re.sub(u'(/)', u'_', b64)
+            b64 = re.sub(u'(\+)', u'-', b64)
+            b64 = re.sub(u'(=)', u'.', b64)
             return b64
         else:
             return AlignetError('RSA Ciphering could not be executed')
@@ -217,9 +217,9 @@ class Alignet(object):
         des3 = DES3.new(key, DES3.MODE_CBC, binvector)
         crypttext = base64.b64encode(des3.encrypt(text))
 
-        crypttext = re.sub('(/)', '_', crypttext)
-        crypttext = re.sub('(\+)', '-', crypttext)
-        crypttext = re.sub('(=)', '.', crypttext)
+        crypttext = re.sub(b'(/)', b'_', crypttext)
+        crypttext = re.sub(b'(\+)', b'-', crypttext)
+        crypttext = re.sub(b'(=)', b'.', crypttext)
 
         return crypttext
 
@@ -238,16 +238,16 @@ class Alignet(object):
         # Add 8 first bytes of key at the end of it
         key += key[0:8]
 
-        pas = re.sub('_', '/', data)
-        pas = re.sub('-', '+', pas)
-        pas = re.sub('\.', '=', pas)
+        pas = re.sub(b'_', b'/', data)
+        pas = re.sub(b'-', b'+', pas)
+        pas = re.sub(b'\.', b'=', pas)
 
         crypttext = base64.b64decode(pas)
 
         des3 = DES3.new(key, DES3.MODE_CBC, binvector)
         crypttext2 = des3.decrypt(crypttext)
 
-        packing = ord(crypttext2[len(crypttext2) - 1])
+        packing = ord(str(crypttext2[len(crypttext2) - 1]))
         if packing and packing < DES3.block_size:
             p = len(crypttext2) - 1
             while p <= len(crypttext2) - packing:
@@ -285,8 +285,7 @@ if __name__ == "__main__":
 
     print(al.create_xml(send))
 
-    key = """
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMk8iGBH93T4WGSlCl8tQGSOQV
+    key = """MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMk8iGBH93T4WGSlCl8tQGSOQV
 giOnHUO5SK8SMao/9VpgQncOJW7h6EooEZo9EdPSt+Ezn/3ausbNwoA7+Y/mNOcD
 2ThSSgZ8FRk9sUq6/pq0JiK0/stQfyYLldeW0NGg99RDf8AKQ3/FzjRAJCdwgOx0
 NqbMDDdUFhFNdVNg0wIDAQAB
