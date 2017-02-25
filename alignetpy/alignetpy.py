@@ -175,13 +175,13 @@ class Alignet(object):
         cipher = PKCS1_OAEP.new(rsakey)
 
         # encrypt, IMPORTANT: read about padding modes (RSA.pkcs1_padding)
-        encrypted_msg = cipher.encrypt(value)
+        encrypted_msg = cipher.encrypt(value.encode('utf-8'))
 
         if encrypted_msg:
-            b64 = encrypted_msg.encode('base64')
-            b64 = re.sub(u'(/)', u'_', b64)
-            b64 = re.sub(u'(\+)', u'-', b64)
-            b64 = re.sub(u'(=)', u'.', b64)
+            b64 = base64.b64encode(encrypted_msg)
+            b64 = re.sub(b'(/)', b'_', b64)
+            b64 = re.sub(b'(\+)', b'-', b64)
+            b64 = re.sub(b'(=)', b'.', b64)
             return b64
         else:
             return AlignetError('RSA Ciphering could not be executed')
