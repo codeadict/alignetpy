@@ -127,7 +127,9 @@ class Alignet(object):
 
         # TODO: If some taxes exist add to the XML doc
         if len(taxes):
-            elem = ET.SubElement()
+            elem = ET.SubElement('taxes')
+            for tax_name in taxes:
+                elem
             pass
 
         return ET.tostring(root, encoding='iso-8859-1')
@@ -263,8 +265,11 @@ class Alignet(object):
         raise NotImplementedError
 
     def parse_xml(self, xml):
-        output = dict()
-        raise NotImplementedError
+        output = {}
+        root = ET.fromstring(xml)
+        for node in root:
+            output[node.tag] = node.text
+        return output
 
 
 if __name__ == "__main__":
@@ -273,17 +278,20 @@ if __name__ == "__main__":
     key = "1234567891011112"
     al = Alignet()
     ci = al.base64url_symmetric_cipher(data, key, vector)
-    print(ci)
+    #print(ci)
     de = al.base64url_symmetric_decipher(ci, key, vector)
-    print(de)
+    #print(de)
 
     send = {
         'purchaseCurrencyCode': 'USD',
         'billingEMail': 'dairon.medina@gmail.com',
-        'billingPhone': '0987612278'
+        'billingPhone': '0987612278',
     }
+    xml = al.create_xml(send)
+    print("The XML is: {}".format(al.create_xml(send)))
 
-    print(al.create_xml(send))
+    decoded = al.parse_xml(xml)
+    print('The XML decoded: {}'.format(decoded))
 
     key = """MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMk8iGBH93T4WGSlCl8tQGSOQV
 giOnHUO5SK8SMao/9VpgQncOJW7h6EooEZo9EdPSt+Ezn/3ausbNwoA7+Y/mNOcD
