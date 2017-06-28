@@ -17,6 +17,8 @@ import xml.etree.cElementTree as ET
 from Crypto.Cipher import DES3
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA256
+from Crypto.Signature import PKCS1_v1_5
 
 
 class AlignetError(Exception):
@@ -119,7 +121,7 @@ class Alignet(object):
                 re.sub(r'(^tax_)|(_name$)', '', key)
                 taxes[key] = value
             else:
-                raise AlignetError('%s is not allowed value by Alignet.') % key
+                raise AlignetError('%s is not allowed value by Alignet.' % key)
 
         for key, value in temp_dict.items():
             elem = ET.SubElement(root, key)
@@ -173,7 +175,7 @@ class Alignet(object):
         """
         Encrypt th URL with rsa
         """
-        rsakey = RSA.importKey(public_key)
+        rsakey = RSA.importKey(base64.b64decode(public_key))
         cipher = PKCS1_OAEP.new(rsakey)
 
         # encrypt, IMPORTANT: read about padding modes (RSA.pkcs1_padding)
@@ -259,7 +261,14 @@ class Alignet(object):
         return crypttext2[0: len(crypttext2) - packing]
 
     def base64url_digital_generate(self, data, privatekey):
-        raise NotImplementedError
+        keyDER = base64.b64decode(privatekey)
+        rsakey = RSA.importKey(keyDER)
+        signer = PKCS1_v1_5.new(rsakey)
+        digest = SHA256.new()
+        digest.update(data)
+        sign = signer.sign(digest)
+        crypttext = base64.b64encode(sign)
+        return crypttext
 
     def base64url_digital_verify(self, sata, signature, publickey):
         raise NotImplementedError
